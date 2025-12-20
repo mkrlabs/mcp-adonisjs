@@ -6,6 +6,11 @@
   "bin": {
     "mcp-adonisjs": "./build/index.js"
   },
+  "files": [
+    "build",
+    "src",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build",
