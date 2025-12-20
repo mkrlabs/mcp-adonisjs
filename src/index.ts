@@ -254,6 +254,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
+  // Use stderr for logging since stdout is used for MCP protocol communication
   console.error("AdonisJS MCP Server running on stdio");
 }
 

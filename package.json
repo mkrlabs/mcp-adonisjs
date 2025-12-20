@@ -9,7 +9,8 @@
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "test": "node tests/security.test.js"
   },
   "keywords": [
     "mcp",

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "adonisjs": {
+      "command": "node",
+      "args": ["/path/to/mcp-adonisjs/build/index.js"]
+    }
+  }
+}
