@@ -1,0 +1,36 @@
+{
+  "name": "@mkrlbs/mcp-adonisjs",
+  "version": "0.1.0",
+  "description": "MCP server for executing AdonisJS Ace commands",
+  "type": "module",
+  "bin": {
+    "mcp-adonisjs": "./build/index.js"
+  },
+  "files": [
+    "build",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "watch": "tsc --watch",
+    "test": "node tests/security.test.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "adonisjs",
+    "ace"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}
