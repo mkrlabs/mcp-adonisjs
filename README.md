@@ -110,7 +110,7 @@ Add to your `claude_desktop_config.json`:
 
 ```json
 {
-  "mcpServers": {
+  "servers": {
     "adonisjs": {
       "command": "npx",
       "args": ["-y", "@mkrlbs/mcp-adonisjs"]
@@ -126,7 +126,7 @@ Add to your `claude_desktop_config.json`:
 
 ```json
 {
-  "mcpServers": {
+  "servers": {
     "adonisjs": {
       "command": "npx",
       "args": ["-y", "@mkrlbs/mcp-adonisjs"]
@@ -142,7 +142,7 @@ Code workspace:
 
 ```json
 {
-  "mcpServers": {
+  "servers": {
     "adonisjs-local": {
       "command": "node",
       "args": ["${workspaceFolder}/build/index.js"],
