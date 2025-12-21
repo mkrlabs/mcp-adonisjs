@@ -1,10 +1,13 @@
 # AdonisJS MCP Server
 
-A secure [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server for executing AdonisJS Ace commands. This server allows AI assistants to interact with AdonisJS projects through a controlled, secure interface.
+A secure [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server
+for executing AdonisJS Ace commands. This server allows AI assistants to
+interact with AdonisJS projects through a controlled, secure interface.
 
 ## Features
 
-- 🔒 **Secure by default**: Blacklists dangerous commands and prevents shell injection
+- 🔒 **Secure by default**: Blacklists dangerous commands and prevents shell
+  injection
 - 🛠️ **Multiple tools**: Pre-configured tools for common AdonisJS operations
 - ✅ **Validation**: Strict argument validation using Zod schemas
 - 📦 **TypeScript**: Fully typed with TypeScript for better DX
@@ -22,10 +25,13 @@ npm install @mkrlbs/mcp-adonisjs
 Creates an AdonisJS controller using `node ace make:controller`.
 
 **Arguments:**
+
 - `name` (string, required): Name of the controller to create
-- `resource` (boolean, optional): Whether to create a resource controller (default: false)
+- `resource` (boolean, optional): Whether to create a resource controller
+  (default: false)
 
 **Example:**
+
 ```json
 {
   "name": "UserController",
@@ -38,9 +44,11 @@ Creates an AdonisJS controller using `node ace make:controller`.
 Creates an AdonisJS service using `node ace make:service`.
 
 **Arguments:**
+
 - `name` (string, required): Name of the service to create
 
 **Example:**
+
 ```json
 {
   "name": "AuthService"
@@ -52,10 +60,12 @@ Creates an AdonisJS service using `node ace make:service`.
 Executes any AdonisJS Ace command with security checks.
 
 **Arguments:**
+
 - `command` (string, required): The Ace command to run (e.g., 'make:model')
 - `args` (array of strings, optional): Arguments to pass to the command
 
 **Example:**
+
 ```json
 {
   "command": "make:model",
@@ -68,6 +78,7 @@ Executes any AdonisJS Ace command with security checks.
 ### Blacklisted Commands
 
 The following commands are blacklisted for security reasons:
+
 - `db:wipe`
 - `migration:fresh`
 - `migration:refresh`
@@ -77,7 +88,9 @@ Attempting to run these commands will result in an error.
 
 ### Shell Injection Protection
 
-All command arguments are validated to prevent shell injection attacks. The following characters are not allowed:
+All command arguments are validated to prevent shell injection attacks. The
+following characters are not allowed:
+
 - `;` (semicolon)
 - `&` (ampersand)
 - `|` (pipe)
@@ -106,9 +119,45 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
+### VS Code
+
+1. Create a `.vscode/mcp.json` file in your project root.
+2. Add the configuration below:
+
+```json
+{
+  "mcpServers": {
+    "adonisjs": {
+      "command": "npx",
+      "args": ["-y", "@mkrlbs/mcp-adonisjs"]
+    }
+  }
+}
+```
+
+**Local Development:**
+
+If you are developing this package and want to test it locally within your VS
+Code workspace:
+
+```json
+{
+  "mcpServers": {
+    "adonisjs-local": {
+      "command": "node",
+      "args": ["${workspaceFolder}/build/index.js"],
+      "env": {
+        "cwd": "${workspaceFolder}"
+      }
+    }
+  }
+}
+```
+
 ### Other MCP Clients
 
-The server uses stdio transport and can be configured with any MCP-compatible client. Provide the command:
+The server uses stdio transport and can be configured with any MCP-compatible
+client. Provide the command:
 
 ```bash
 npx @mkrlbs/mcp-adonisjs
@@ -136,4 +185,3 @@ npm run watch
 ## License
 
 MIT
-
