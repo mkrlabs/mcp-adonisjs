@@ -191,6 +191,8 @@ const expectedTools = [
   "migration_status",
   "db_seed",
   "list_routes",
+  // Utility
+  "set_project_cwd",
   // Catch-all
   "run_ace_command",
 ];

@@ -9,6 +9,19 @@ import { z } from "zod";
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const { version: PKG_VERSION } = require("../package.json");
+
+/**
+ * Project working directory — set via env, set_project_cwd tool, or defaults to process.cwd()
+ */
+let projectCwd: string = process.cwd();
+
+function getProjectCwd(): string {
+    return projectCwd;
+}
 
 /**
  * Blacklisted commands that are considered dangerous
@@ -46,13 +59,15 @@ function isBlacklisted(command: string): boolean {
  * Verify that we are in an AdonisJS project
  */
 function verifyAdonisProject(): void {
-    const acePath = path.join(process.cwd(), "ace");
-    const aceJsPath = path.join(process.cwd(), "ace.js");
+    const cwd = getProjectCwd();
+    const acePath = path.join(cwd, "ace");
+    const aceJsPath = path.join(cwd, "ace.js");
 
     if (!fs.existsSync(acePath) && !fs.existsSync(aceJsPath)) {
         throw new Error(
-            `AdonisJS 'ace' entry point not found in current directory (${process.cwd()}).\n` +
-            `Please ensure the MCP server is running in the root of your AdonisJS project.`
+            `AdonisJS 'ace' entry point not found in directory (${cwd}).\n` +
+            `Please use the set_project_cwd tool to set the path to your AdonisJS project, ` +
+            `or configure the 'cwd' environment variable.`
         );
     }
 }
@@ -75,7 +90,7 @@ function executeAceCommand(command: string, args: string[] = []): string {
 
     try {
         const output = execSync(fullCommand, {
-            cwd: process.cwd(),
+            cwd: getProjectCwd(),
             encoding: "utf-8",
             timeout: 30_000,
             stdio: ["pipe", "pipe", "pipe"],
@@ -163,6 +178,10 @@ const MigrationRollbackArgsSchema = z.object({
 
 const DbSeedArgsSchema = z.object({
     files: z.string().optional().describe("Specific seeder file to run (e.g., 'database/seeders/user_seeder')"),
+});
+
+const SetProjectCwdArgsSchema = z.object({
+    path: z.string().describe("Absolute path to the AdonisJS project root directory"),
 });
 
 const RunAceCommandArgsSchema = z.object({
@@ -282,6 +301,17 @@ const TOOLS: ToolDef[] = [
         inputSchema: { type: "object", properties: {} },
     },
     {
+        name: "set_project_cwd",
+        description: "Sets the working directory for all subsequent Ace commands. Call this first if the server cannot find the AdonisJS project. The path must point to a directory containing the 'ace' file.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                path: { type: "string", description: "Absolute path to the AdonisJS project root directory" },
+            },
+            required: ["path"],
+        },
+    },
+    {
         name: "run_ace_command",
         description: "Executes any AdonisJS Ace command with security checks. Use this for commands without a dedicated tool. Blacklisted: " + BLACKLISTED_COMMANDS.join(", "),
         inputSchema: {
@@ -298,7 +328,7 @@ const TOOLS: ToolDef[] = [
 // ─── Server Setup ────────────────────────────────────────────────────────────
 
 const server = new Server(
-    { name: "adonisjs-mcp-server", version: "1.1.1" },
+    { name: "adonisjs-mcp-server", version: PKG_VERSION },
     { capabilities: { tools: {} } }
 );
 
@@ -438,6 +468,20 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 return { content: [{ type: "text", text: `Routes:\n${output}` }] };
             }
 
+            case "set_project_cwd": {
+                const parsed = SetProjectCwdArgsSchema.parse(args);
+                const targetPath = path.resolve(parsed.path);
+                if (!fs.existsSync(targetPath)) {
+                    throw new Error(`Directory not found: ${targetPath}`);
+                }
+                const hasAce = fs.existsSync(path.join(targetPath, "ace")) || fs.existsSync(path.join(targetPath, "ace.js"));
+                if (!hasAce) {
+                    throw new Error(`No 'ace' entry point found in ${targetPath}. Is this an AdonisJS project?`);
+                }
+                projectCwd = targetPath;
+                return { content: [{ type: "text", text: `Project directory set to: ${targetPath}` }] };
+            }
+
             case "run_ace_command": {
                 const parsed = RunAceCommandArgsSchema.parse(args);
                 const output = executeAceCommand(parsed.command, parsed.args);
@@ -461,10 +505,11 @@ async function main() {
     const targetCwd = process.env.cwd || process.env.CWD;
     if (targetCwd) {
         try {
-            process.chdir(targetCwd);
-            console.error(`Changed working directory to: ${targetCwd}`);
+            const resolved = path.resolve(targetCwd);
+            projectCwd = resolved;
+            console.error(`Project directory set to: ${resolved}`);
         } catch (err) {
-            console.error(`Failed to change working directory to ${targetCwd}:`, err);
+            console.error(`Failed to set project directory to ${targetCwd}:`, err);
         }
     }
 
