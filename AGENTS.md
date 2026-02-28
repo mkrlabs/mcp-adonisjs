@@ -39,6 +39,33 @@ src/
 - **`check_docs`** / **`list_docs`** fetch AdonisJS v7 documentation as markdown
   (98 pages across 14 categories)
 
+## Project Auto-Detection
+
+The server uses `process.cwd()` as the default project root. Before any Ace
+command runs, it checks for an `ace` file. If not found, an error is returned
+prompting the user (or LLM) to call `set_project_cwd`.
+
+Clients can also set the `cwd` environment variable in their MCP config to
+override the working directory at startup.
+
+## MCP Client Configuration
+
+Minimal config for any MCP client:
+
+```json
+{
+  "mcpServers": {
+    "adonisjs": {
+      "command": "npx",
+      "args": ["-y", "@mkrlbs/mcp-adonisjs"]
+    }
+  }
+}
+```
+
+See [DOCUMENTATION.md](DOCUMENTATION.md) for client-specific examples (Claude
+Desktop, VS Code, Antigravity, Codex CLI, etc.).
+
 ## Testing
 
 ```bash
