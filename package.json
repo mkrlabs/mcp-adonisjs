@@ -1,14 +1,13 @@
 {
   "name": "@mkrlbs/mcp-adonisjs",
   "version": "1.2.0",
-  "description": "MCP server for executing AdonisJS Ace commands and check documentation",
+  "description": "MCP server for executing AdonisJS Ace commands and checking documentation",
   "type": "module",
   "bin": {
     "mcp-adonisjs": "./build/index.js"
   },
   "files": [
     "build",
-    "src",
     "README.md"
   ],
   "scripts": {
