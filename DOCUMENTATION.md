@@ -173,7 +173,46 @@ Add to your `opencode.json` (project root or `~/.config/opencode/config.json`):
 
 Use `opencode mcp list` to verify the server is active.
 
-### Other MCP Clients (Gemini CLI, etc.)
+### Gemini CLI
+
+**Option 1 — CLI command:**
+
+```bash
+gemini mcp add adonisjs npx -y @mkrlbs/mcp-adonisjs
+```
+
+**Option 2 — Edit settings.json:**
+
+Add to `~/.gemini/settings.json` (global) or `.gemini/settings.json` (project):
+
+```json
+{
+    "mcpServers": {
+        "adonisjs": {
+            "command": "npx",
+            "args": ["-y", "@mkrlbs/mcp-adonisjs"]
+        }
+    }
+}
+```
+
+To start the server in a specific directory, add `cwd`:
+
+```json
+{
+    "mcpServers": {
+        "adonisjs": {
+            "command": "npx",
+            "args": ["-y", "@mkrlbs/mcp-adonisjs"],
+            "cwd": "/path/to/my-adonis-project"
+        }
+    }
+}
+```
+
+Use `/mcp` in interactive mode or `gemini mcp list` to check server status.
+
+### Other MCP Clients
 
 Add an `adonisjs` server with:
 
