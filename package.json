@@ -1,7 +1,7 @@
 {
   "name": "@mkrlbs/mcp-adonisjs",
   "version": "1.2.0",
-  "description": "MCP server for executing AdonisJS Ace commands",
+  "description": "MCP server for executing AdonisJS Ace commands and check documentation",
   "type": "module",
   "bin": {
     "mcp-adonisjs": "./build/index.js"
