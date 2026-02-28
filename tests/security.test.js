@@ -260,6 +260,39 @@ if (handlersFailed === 0) {
   failed++;
 }
 
+// ─── Test 7: Shebang Validation ──────────────────────────────────────────────
+
+console.log("\n📦 Test 7: Binary Shebang Validation");
+console.log("-".repeat(60));
+
+const SHEBANG = "#!/usr/bin/env node";
+
+// Check source file
+if (srcContent.startsWith(SHEBANG)) {
+  console.log("✅ Source (src/index.ts) starts with shebang");
+  passed++;
+} else {
+  console.log("❌ Source (src/index.ts) is missing shebang — npx will fail!");
+  failed++;
+}
+
+// Check compiled output
+const buildPath = join(__dirname, "../build/index.js");
+try {
+  const buildContent = readFileSync(buildPath, "utf-8");
+  if (buildContent.startsWith(SHEBANG)) {
+    console.log("✅ Build (build/index.js) starts with shebang");
+    passed++;
+  } else {
+    console.log("❌ Build (build/index.js) is missing shebang — npx will fail!");
+    console.log("   Run 'npm run build' and check that the shebang is preserved");
+    failed++;
+  }
+} catch {
+  console.log("⚠️  Build file not found — run 'npm run build' first");
+  console.log("   Skipping build shebang check");
+}
+
 // ─── Summary ─────────────────────────────────────────────────────────────────
 
 console.log("\n" + "=".repeat(60));
