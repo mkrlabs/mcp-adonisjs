@@ -31,6 +31,37 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
+### Claude Code
+
+**Option 1 — CLI command:**
+
+```bash
+claude mcp add --transport stdio adonisjs -- npx -y @mkrlbs/mcp-adonisjs
+```
+
+**Option 2 — Edit .mcp.json:**
+
+Create `.mcp.json` in your project root (shared with team via version control):
+
+```json
+{
+    "mcpServers": {
+        "adonisjs": {
+            "command": "npx",
+            "args": ["-y", "@mkrlbs/mcp-adonisjs"]
+        }
+    }
+}
+```
+
+Use `/mcp` within Claude Code to check server status and authenticate if needed.
+
+**Scopes:**
+
+- `--scope local` (default): Available only to you in the current project
+- `--scope project`: Shared via `.mcp.json` file
+- `--scope user`: Available across all your projects
+
 ### VS Code
 
 **Option 1 — Command Palette:**
