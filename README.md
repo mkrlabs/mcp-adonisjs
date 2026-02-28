@@ -1,6 +1,6 @@
 # AdonisJS MCP Server
 
-[![Documentation](https://img.shields.io/badge/Read-Documentation-blue?style=for-the-badge&logo=markdown)](DOCUMENTATION.md)
+[![Documentation](https://img.shields.io/badge/Read-Documentation-blue?style=for-the-badge&logo=markdown)](docs/README.md)
 
 A secure [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server
 for executing AdonisJS Ace commands. This server allows AI assistants to
@@ -35,8 +35,8 @@ client. Configure it in your MCP client settings:
 }
 ```
 
-See the [documentation](DOCUMENTATION.md) for client-specific instructions (VS
-Code, Claude Desktop, Antigravity, Codex CLI, etc.).
+See the [documentation](docs/README.md) for client-specific instructions (VS
+Code, Claude Desktop, Claude Code, Antigravity, Codex, Gemini CLI, etc.).
 
 ## Available Tools
 

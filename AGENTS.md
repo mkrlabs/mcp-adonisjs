@@ -63,8 +63,8 @@ Minimal config for any MCP client:
 }
 ```
 
-See [DOCUMENTATION.md](DOCUMENTATION.md) for client-specific examples (Claude
-Desktop, VS Code, Antigravity, Codex CLI, etc.).
+See [docs/](docs/README.md) for client-specific examples (Claude Desktop, Claude
+Code, VS Code, Antigravity, Codex, Gemini CLI, etc.).
 
 ## Testing
 
