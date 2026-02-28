@@ -3,6 +3,7 @@
  */
 
 import { BLACKLISTED_COMMANDS } from "../services/security.js";
+import { DOC_CATEGORIES } from "../services/docs.js";
 
 export interface ToolDef {
     name: string;
@@ -135,6 +136,27 @@ export const TOOLS: ToolDef[] = [
                 args: { type: "array", items: { type: "string" }, description: "Arguments to pass", default: [] },
             },
             required: ["command"],
+        },
+    },
+    {
+        name: "check_docs",
+        description: "Fetches AdonisJS v7 official documentation for a given topic and returns it as markdown. Use list_docs first to see available topics and categories.",
+        inputSchema: {
+            type: "object",
+            properties: {
+                topic: { type: "string", description: "Documentation topic key (e.g., 'routing', 'lucid', 'session-guard')" },
+            },
+            required: ["topic"],
+        },
+    },
+    {
+        name: "list_docs",
+        description: "Lists available AdonisJS v7 documentation topics. Optionally filter by category. Categories: " + DOC_CATEGORIES.join(", "),
+        inputSchema: {
+            type: "object",
+            properties: {
+                category: { type: "string", description: "Filter by category (e.g., 'basics', 'auth', 'database'). Omit to list all." },
+            },
         },
     },
 ];

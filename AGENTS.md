@@ -6,8 +6,9 @@ exposes AdonisJS Ace commands as tools for AI assistants.
 ## Purpose
 
 This package lets LLMs (Claude, Codex, Antigravity, etc.) scaffold, migrate,
-seed, and inspect AdonisJS projects without running shell commands directly —
-with built-in security (blacklist, shell injection protection, timeout).
+seed, inspect AdonisJS projects, and access the official AdonisJS v7
+documentation — with built-in security (blacklist, shell injection protection,
+timeout).
 
 ## Architecture
 
@@ -17,7 +18,8 @@ src/
 ├── services/
 │   ├── security.ts           # Blacklist, shell injection pattern, argument validation
 │   ├── ace.ts                # Project CWD management, Ace command execution
-│   └── file_generator.ts     # File creation utilities (for non-Ace scaffolding)
+│   ├── file_generator.ts     # File creation utilities (for non-Ace scaffolding)
+│   └── docs.ts               # AdonisJS v7 docs registry (98 pages, 14 categories)
 └── tools/
     ├── schemas.ts            # Zod schemas for tool argument validation
     ├── definitions.ts        # TOOLS array exposed to LLMs via ListTools
@@ -34,6 +36,8 @@ src/
 - **`run_ace_command`** is the catch-all for commands without a dedicated tool
 - **`set_project_cwd`** must be called first if the server doesn't know where
   the AdonisJS project is
+- **`check_docs`** / **`list_docs`** fetch AdonisJS v7 documentation as markdown
+  (98 pages across 14 categories)
 
 ## Testing
 

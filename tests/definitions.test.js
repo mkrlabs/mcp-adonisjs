@@ -53,6 +53,8 @@ const expectedTools = [
   "list_routes",
   "set_project_cwd",
   "run_ace_command",
+  "check_docs",
+  "list_docs",
 ];
 
 for (const tool of expectedTools) {

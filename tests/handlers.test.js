@@ -53,6 +53,8 @@ const expectedCases = [
   "list_routes",
   "set_project_cwd",
   "run_ace_command",
+  "check_docs",
+  "list_docs",
 ];
 
 for (const tool of expectedCases) {
@@ -63,7 +65,7 @@ for (const tool of expectedCases) {
 
 console.log("\n🔍 Exports");
 
-assert(/export function handleToolCall/.test(srcContent), "handleToolCall is exported");
+assert(/export (async )?function handleToolCall/.test(srcContent), "handleToolCall is exported");
 
 // ─── Error Handling ──────────────────────────────────────────────────────────
 
@@ -86,6 +88,8 @@ const schemaImports = [
   "DbSeedArgsSchema",
   "SetProjectCwdArgsSchema",
   "RunAceCommandArgsSchema",
+  "CheckDocsArgsSchema",
+  "ListDocsArgsSchema",
 ];
 
 for (const schema of schemaImports) {
@@ -101,6 +105,8 @@ assert(srcContent.includes("setProjectCwd"), "Uses setProjectCwd from ace servic
 assert(srcContent.includes("getProjectCwd"), "Uses getProjectCwd from ace service");
 assert(srcContent.includes("toSnakeCase"), "Uses toSnakeCase from file_generator");
 assert(srcContent.includes("createFileWithContent"), "Uses createFileWithContent from file_generator");
+assert(srcContent.includes("fetchDoc"), "Uses fetchDoc from docs service");
+assert(srcContent.includes("listDocTopics"), "Uses listDocTopics from docs service");
 
 // ─── Summary ─────────────────────────────────────────────────────────────────
 

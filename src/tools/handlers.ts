@@ -5,6 +5,7 @@
 import path from "path";
 import { executeAceCommand, getProjectCwd, setProjectCwd } from "../services/ace.js";
 import { toSnakeCase, createFileWithContent } from "../services/file_generator.js";
+import { fetchDoc, listDocTopics } from "../services/docs.js";
 import {
     MakeControllerArgsSchema,
     MakeServiceArgsSchema,
@@ -27,6 +28,8 @@ import {
     DbSeedArgsSchema,
     SetProjectCwdArgsSchema,
     RunAceCommandArgsSchema,
+    CheckDocsArgsSchema,
+    ListDocsArgsSchema,
 } from "./schemas.js";
 
 interface ToolResult {
@@ -39,7 +42,7 @@ function success(text: string): ToolResult {
     return { content: [{ type: "text", text }] };
 }
 
-export function handleToolCall(toolName: string, args: unknown): ToolResult {
+export async function handleToolCall(toolName: string, args: unknown): Promise<ToolResult> {
     switch (toolName) {
         case "make_controller": {
             const parsed = MakeControllerArgsSchema.parse(args);
@@ -167,6 +170,19 @@ export function handleToolCall(toolName: string, args: unknown): ToolResult {
         case "run_ace_command": {
             const parsed = RunAceCommandArgsSchema.parse(args);
             return success(`Command executed successfully:\n${executeAceCommand(parsed.command, parsed.args)}`);
+        }
+
+        case "check_docs": {
+            const parsed = CheckDocsArgsSchema.parse(args);
+            const content = await fetchDoc(parsed.topic);
+            return success(content);
+        }
+
+        case "list_docs": {
+            const parsed = ListDocsArgsSchema.parse(args);
+            const entries = listDocTopics(parsed.category);
+            const lines = entries.map((e) => `- [${e.category}] ${e.topic}`);
+            return success(`Available documentation topics (${entries.length}):\n${lines.join("\n")}`);
         }
 
         default:

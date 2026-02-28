@@ -10,8 +10,10 @@ interact with AdonisJS projects through a controlled, secure interface.
 
 - 🔒 **Secure by default**: Blacklists dangerous commands and prevents shell
   injection
-- 🛠️ **21 dedicated tools**: Pre-configured tools for all common AdonisJS
+- 🛠️ **25 dedicated tools**: Pre-configured tools for all common AdonisJS
   operations
+- 📚 **Built-in docs access**: Fetch AdonisJS v7 documentation directly as
+  markdown
 - ⏱️ **Timeout protection**: 30s timeout prevents infinite hangs on interactive
   prompts
 - ✅ **Validation**: Strict argument validation using Zod schemas
@@ -44,6 +46,7 @@ npm install @mkrlbs/mcp-adonisjs
 | `make_listener`   | `node ace make:listener`   | —                                 |
 | `make_mailer`     | `node ace make:mailer`     | —                                 |
 | `make_command`    | `node ace make:command`    | —                                 |
+| `make_repository` | _(file generation)_        | —                                 |
 
 ### Database & Routing
 
@@ -55,11 +58,23 @@ npm install @mkrlbs/mcp-adonisjs
 | `db_seed`            | `node ace db:seed`            | `files` (string)  |
 | `list_routes`        | `node ace list:routes`        | —                 |
 
-### Catch-all
+### Documentation
 
-| Tool              | Command         | Extra args                            |
-| :---------------- | :-------------- | :------------------------------------ |
-| `run_ace_command` | Any Ace command | `command` (string), `args` (string[]) |
+| Tool         | Description                                        | Args                          |
+| :----------- | :------------------------------------------------- | :---------------------------- |
+| `check_docs` | Fetches AdonisJS v7 docs for a topic as markdown   | `topic` (string)              |
+| `list_docs`  | Lists available doc topics, filterable by category | `category` (string, optional) |
+
+**14 categories available:** start, basics, frontend, database, auth, security,
+concepts, digging-deeper, ace, testing, tutorial-hypermedia, tutorial-react,
+reference, resources.
+
+### Utility
+
+| Tool              | Description                                 | Args                                  |
+| :---------------- | :------------------------------------------ | :------------------------------------ |
+| `set_project_cwd` | Sets the working directory for Ace commands | `path` (string)                       |
+| `run_ace_command` | Catch-all for any Ace command               | `command` (string), `args` (string[]) |
 
 All scaffolding tools accept a `name` (string, required) argument.
 
@@ -79,6 +94,14 @@ All scaffolding tools accept a `name` (string, required) argument.
 
 ```json
 { "command": "make:provider", "args": ["AppProvider"] }
+```
+
+```json
+{ "topic": "routing" }
+```
+
+```json
+{ "category": "auth" }
 ```
 
 ## Security

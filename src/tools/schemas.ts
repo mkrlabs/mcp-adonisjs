@@ -91,3 +91,12 @@ export const RunAceCommandArgsSchema = z.object({
     command: z.string().describe("The Ace command to run (e.g., 'make:model')"),
     args: z.array(z.string()).optional().default([]).describe("Arguments to pass to the command"),
 });
+
+export const CheckDocsArgsSchema = z.object({
+    topic: z.string().describe("Documentation topic key (e.g., 'routing', 'lucid', 'session-guard'). Use list_docs to see available topics."),
+});
+
+export const ListDocsArgsSchema = z.object({
+    category: z.string().optional().describe("Filter by category (e.g., 'basics', 'auth', 'database'). Omit to list all topics."),
+});
+
