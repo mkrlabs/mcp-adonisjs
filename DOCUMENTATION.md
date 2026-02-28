@@ -78,15 +78,35 @@ Code workspace:
 }
 ```
 
-### OpenAI Codex CLI
+### OpenAI Codex
 
-Add to `~/.codex/config.toml` (global) or `.codex/config.toml` (project-level):
+**Option 1 — CLI command (simplest):**
+
+```bash
+codex mcp add adonisjs -- npx -y @mkrlbs/mcp-adonisjs
+```
+
+**Option 2 — Edit config.toml:**
+
+Add to `~/.codex/config.toml` (global) or `.codex/config.toml` (project-level,
+trusted projects only):
 
 ```toml
 [mcp_servers.adonisjs]
 command = "npx"
 args = ["-y", "@mkrlbs/mcp-adonisjs"]
 ```
+
+To start the server in a specific directory, add `cwd`:
+
+```toml
+[mcp_servers.adonisjs]
+command = "npx"
+args = ["-y", "@mkrlbs/mcp-adonisjs"]
+cwd = "/path/to/my-adonis-project"
+```
+
+Use `/mcp` in the Codex TUI to verify the server is active.
 
 ### Other MCP Clients (Gemini CLI, GitHub Copilot CLI, etc.)
 
