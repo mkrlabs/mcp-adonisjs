@@ -103,6 +103,31 @@ function executeAceCommand(command: string, args: string[] = []): string {
     }
 }
 
+/**
+ * Converts PascalCase or camelCase to snake_case
+ */
+function toSnakeCase(str: string): string {
+    return str
+        .replace(/([A-Z])/g, "_$1")
+        .toLowerCase()
+        .replace(/^_/, "");
+}
+
+/**
+ * Creates a file with the given content, ensuring the directory exists
+ */
+function createFileWithContent(filePath: string, content: string): string {
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+    if (fs.existsSync(filePath)) {
+        throw new Error(`File already exists: ${filePath}`);
+    }
+    fs.writeFileSync(filePath, content, "utf-8");
+    return filePath;
+}
+
 // ─── Schema Definitions ─────────────────────────────────────────────────────
 
 const MakeControllerArgsSchema = z.object({
@@ -166,6 +191,10 @@ const MakeMailerArgsSchema = z.object({
 
 const MakeCommandArgsSchema = z.object({
     name: z.string().describe("Name of the command to create (e.g., 'SyncUsers')"),
+});
+
+const MakeRepositoryArgsSchema = z.object({
+    name: z.string().describe("Name of the repository to create (e.g., 'User', 'Project')"),
 });
 
 const MigrationRunArgsSchema = z.object({
@@ -260,6 +289,7 @@ const TOOLS: ToolDef[] = [
     simpleNameTool("make_listener", "Creates an AdonisJS event listener using 'node ace make:listener'", "Name of the listener (e.g., 'SendWelcomeEmail')"),
     simpleNameTool("make_mailer", "Creates an AdonisJS mailer using 'node ace make:mailer'", "Name of the mailer (e.g., 'VerificationMailer')"),
     simpleNameTool("make_command", "Creates an AdonisJS Ace command using 'node ace make:command'", "Name of the command (e.g., 'SyncUsers')"),
+    simpleNameTool("make_repository", "Creates a repository class in app/repositories/. AdonisJS has no built-in make:repository command so this tool generates the file directly.", "Name of the repository (e.g., 'User', 'Project')"),
     {
         name: "migration_run",
         description: "Runs pending database migrations using 'node ace migration:run'. Auto-generates database/schema.ts.",
@@ -461,6 +491,23 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 const cmdArgs = parsed.files ? ["--files", parsed.files] : [];
                 const output = executeAceCommand("db:seed", cmdArgs);
                 return { content: [{ type: "text", text: `Seeding completed:\n${output}` }] };
+            }
+
+            case "make_repository": {
+                const parsed = MakeRepositoryArgsSchema.parse(args);
+                const rawName = parsed.name.replace(/Repository$/i, "");
+                const className = rawName.charAt(0).toUpperCase() + rawName.slice(1) + "Repository";
+                const fileName = toSnakeCase(className) + ".ts";
+                const filePath = path.join(getProjectCwd(), "app", "repositories", fileName);
+
+                const template = `import { inject } from '@adonisjs/core'
+
+@inject()
+export default class ${className} {
+}
+`;
+                createFileWithContent(filePath, template);
+                return { content: [{ type: "text", text: `Repository created successfully:\nDONE:    create app/repositories/${fileName}` }] };
             }
 
             case "list_routes": {

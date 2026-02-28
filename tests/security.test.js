@@ -185,6 +185,7 @@ const expectedTools = [
   "make_listener",
   "make_mailer",
   "make_command",
+  "make_repository",
   // Database & routing tools
   "migration_run",
   "migration_rollback",
