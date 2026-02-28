@@ -19,11 +19,24 @@ interact with AdonisJS projects through a controlled, secure interface.
 - ✅ **Validation**: Strict argument validation using Zod schemas
 - 📦 **TypeScript**: Fully typed with TypeScript for better DX
 
-## Installation
+## Quick Start
 
-```bash
-npm install @mkrlbs/mcp-adonisjs
+This is an MCP server - it runs as an external process launched by your AI
+client. Configure it in your MCP client settings:
+
+```json
+{
+  "mcpServers": {
+    "adonisjs": {
+      "command": "npx",
+      "args": ["-y", "@mkrlbs/mcp-adonisjs"]
+    }
+  }
+}
 ```
+
+See the [documentation](DOCUMENTATION.md) for client-specific instructions (VS
+Code, Claude Desktop, Antigravity, Codex CLI, etc.).
 
 ## Available Tools
 
@@ -132,20 +145,6 @@ following characters are not allowed:
 All commands have a 30 second timeout to prevent infinite hangs on interactive
 prompts.
 
-## Documentation
-
-For configuration instructions (Claude Desktop, VS Code, Google Antigravity,
-OpenAI Codex), see the [documentation](DOCUMENTATION.md).
-
-### Other MCP Clients
-
-The server uses stdio transport and can be configured with any MCP-compatible
-client. Provide the command:
-
-```bash
-npx @mkrlbs/mcp-adonisjs
-```
-
 ## Development
 
 ### Building
@@ -169,7 +168,7 @@ npm run watch
 ## Requirements
 
 - Node.js 24+
-- An AdonisJS project in the current working directory
+- An AdonisJS project (auto-detected or set via `set_project_cwd` tool)
 
 ## License
 
