@@ -297,7 +297,7 @@ const TOOLS: ToolDef[] = [
 // ─── Server Setup ────────────────────────────────────────────────────────────
 
 const server = new Server(
-    { name: "adonisjs-mcp-server", version: "0.2.0" },
+    { name: "adonisjs-mcp-server", version: "1.1.0" },
     { capabilities: { tools: {} } }
 );
 

@@ -67,3 +67,14 @@ Add the configuration below:
     }
 }
 ```
+
+### OpenAI Codex CLI
+
+Add to your `~/.codex/config.toml` (global) or `.codex/config.toml`
+(project-level):
+
+```toml
+[mcp_servers.adonisjs]
+command = "npx"
+args = ["-y", "@mkrlbs/mcp-adonisjs"]
+```
