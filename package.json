@@ -13,9 +13,9 @@
   ],
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build",
+    "prepare": "husky",
     "watch": "tsc --watch",
-    "test": "node tests/security.test.js"
+    "test": "node --test tests/*.test.js"
   },
   "keywords": [
     "mcp",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
+    "husky": "^9.1.7",
     "typescript": "^5.7.2"
   }
 }
