@@ -126,7 +126,54 @@ cwd = "/path/to/my-adonis-project"
 
 Use `/mcp` in the Codex TUI to verify the server is active.
 
-### Other MCP Clients (Gemini CLI, GitHub Copilot CLI, etc.)
+### GitHub Copilot CLI
+
+**Option 1 — Interactive command:**
+
+1. In interactive mode, enter `/mcp add`
+2. Server Name: `adonisjs`
+3. Server Type: select **STDIO** (or Local)
+4. Command: `npx -y @mkrlbs/mcp-adonisjs`
+5. Press `Ctrl+S` to save
+
+**Option 2 — Edit config file:**
+
+Add to `~/.copilot/mcp-config.json`:
+
+```json
+{
+    "mcpServers": {
+        "adonisjs": {
+            "type": "local",
+            "command": "npx",
+            "args": ["-y", "@mkrlbs/mcp-adonisjs"],
+            "tools": ["*"]
+        }
+    }
+}
+```
+
+Use `/mcp show` to list configured servers and `/mcp show adonisjs` for details.
+
+### OpenCode
+
+Add to your `opencode.json` (project root or `~/.config/opencode/config.json`):
+
+```json
+{
+    "$schema": "https://opencode.ai/config.json",
+    "mcp": {
+        "adonisjs": {
+            "type": "local",
+            "command": ["npx", "-y", "@mkrlbs/mcp-adonisjs"]
+        }
+    }
+}
+```
+
+Use `opencode mcp list` to verify the server is active.
+
+### Other MCP Clients (Gemini CLI, etc.)
 
 Add an `adonisjs` server with:
 
