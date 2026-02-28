@@ -33,7 +33,18 @@ Add to your `claude_desktop_config.json`:
 
 ### VS Code
 
-Create `.vscode/mcp.json` in your project root:
+**Option 1 — Command Palette:**
+
+1. Open Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+2. Run **MCP: Add Server**
+3. Select **Command (stdio)**
+4. Enter: `npx -y @mkrlbs/mcp-adonisjs`
+5. Choose **Workspace** or **User profile**
+
+**Option 2 — Edit mcp.json:**
+
+Create `.vscode/mcp.json` in your workspace (shared with team) or run **MCP:
+Open User Configuration** (available across all workspaces):
 
 ```json
 {
