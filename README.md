@@ -10,7 +10,10 @@ interact with AdonisJS projects through a controlled, secure interface.
 
 - 🔒 **Secure by default**: Blacklists dangerous commands and prevents shell
   injection
-- 🛠️ **Multiple tools**: Pre-configured tools for common AdonisJS operations
+- 🛠️ **21 dedicated tools**: Pre-configured tools for all common AdonisJS
+  operations
+- ⏱️ **Timeout protection**: 30s timeout prevents infinite hangs on interactive
+  prompts
 - ✅ **Validation**: Strict argument validation using Zod schemas
 - 📦 **TypeScript**: Fully typed with TypeScript for better DX
 
@@ -22,57 +25,60 @@ npm install @mkrlbs/mcp-adonisjs
 
 ## Available Tools
 
-### 1. `make_controller`
+### Scaffolding
 
-Creates an AdonisJS controller using `node ace make:controller`.
+| Tool              | Command                    | Extra args                        |
+| :---------------- | :------------------------- | :-------------------------------- |
+| `make_controller` | `node ace make:controller` | `resource` (boolean)              |
+| `make_service`    | `node ace make:service`    | —                                 |
+| `make_migration`  | `node ace make:migration`  | `withModel` (boolean, `-m` flag)  |
+| `make_model`      | `node ace make:model`      | —                                 |
+| `make_validator`  | `node ace make:validator`  | —                                 |
+| `make_seeder`     | `node ace make:seeder`     | —                                 |
+| `make_exception`  | `node ace make:exception`  | —                                 |
+| `make_middleware` | `node ace make:middleware` | —                                 |
+| `make_test`       | `node ace make:test`       | `suite` (unit/functional/browser) |
+| `make_factory`    | `node ace make:factory`    | —                                 |
+| `make_policy`     | `node ace make:policy`     | —                                 |
+| `make_event`      | `node ace make:event`      | —                                 |
+| `make_listener`   | `node ace make:listener`   | —                                 |
+| `make_mailer`     | `node ace make:mailer`     | —                                 |
+| `make_command`    | `node ace make:command`    | —                                 |
 
-**Arguments:**
+### Database & Routing
 
-- `name` (string, required): Name of the controller to create
-- `resource` (boolean, optional): Whether to create a resource controller
-  (default: false)
+| Tool                 | Command                       | Extra args        |
+| :------------------- | :---------------------------- | :---------------- |
+| `migration_run`      | `node ace migration:run`      | `force` (boolean) |
+| `migration_rollback` | `node ace migration:rollback` | `batch` (number)  |
+| `migration_status`   | `node ace migration:status`   | —                 |
+| `db_seed`            | `node ace db:seed`            | `files` (string)  |
+| `list_routes`        | `node ace list:routes`        | —                 |
 
-**Example:**
+### Catch-all
+
+| Tool              | Command         | Extra args                            |
+| :---------------- | :-------------- | :------------------------------------ |
+| `run_ace_command` | Any Ace command | `command` (string), `args` (string[]) |
+
+All scaffolding tools accept a `name` (string, required) argument.
+
+### Examples
 
 ```json
-{
-  "name": "UserController",
-  "resource": true
-}
+{ "name": "UserController", "resource": true }
 ```
 
-### 2. `make_service`
-
-Creates an AdonisJS service using `node ace make:service`.
-
-**Arguments:**
-
-- `name` (string, required): Name of the service to create
-
-**Example:**
-
 ```json
-{
-  "name": "AuthService"
-}
+{ "name": "create_projects_table", "withModel": true }
 ```
 
-### 3. `run_ace_command`
-
-Executes any AdonisJS Ace command with security checks.
-
-**Arguments:**
-
-- `command` (string, required): The Ace command to run (e.g., 'make:model')
-- `args` (array of strings, optional): Arguments to pass to the command
-
-**Example:**
+```json
+{ "name": "users/list", "suite": "functional" }
+```
 
 ```json
-{
-  "command": "make:model",
-  "args": ["User", "--migration"]
-}
+{ "command": "make:provider", "args": ["AppProvider"] }
 ```
 
 ## Security
@@ -81,10 +87,7 @@ Executes any AdonisJS Ace command with security checks.
 
 The following commands are blacklisted for security reasons:
 
-- `db:wipe`
 - `migration:fresh`
-- `migration:refresh`
-- `migration:reset`
 
 Attempting to run these commands will result in an error.
 
@@ -98,15 +101,18 @@ following characters are not allowed:
 - `|` (pipe)
 - `` ` `` (backtick)
 - `$` (dollar sign)
-- `()` (parentheses)
-- `{}` (curly braces)
-- `[]` (square brackets)
 - `<>` (angle brackets)
 - `\` (backslash)
 
+### Timeout
+
+All commands have a 30 second timeout to prevent infinite hangs on interactive
+prompts.
+
 ## Documentation
 
-For more information, please refer to the [documentation](DOCUMENTATION.md).
+For configuration instructions (Claude Desktop, VS Code, Google Antigravity,
+OpenAI Codex), see the [documentation](DOCUMENTATION.md).
 
 ### Other MCP Clients
 
@@ -125,6 +131,12 @@ npx @mkrlbs/mcp-adonisjs
 npm run build
 ```
 
+### Testing
+
+```bash
+npm run test
+```
+
 ### Watch Mode
 
 ```bash
@@ -133,7 +145,7 @@ npm run watch
 
 ## Requirements
 
-- Node.js 18+
+- Node.js 24+
 - An AdonisJS project in the current working directory
 
 ## License
